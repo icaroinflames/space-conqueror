@@ -1,24 +1,21 @@
-const helloHandler = (request, reply) => {
-    reply.send(`hello ${request.params.nombre}`);
-};
-
-
-const echoFeature = {
-    target: "$FASTIFY_ROUTE",
-    handler: [
-        {
-            method: "GET",
-            url: "/:cosas",        
-            handler: (request, reply) => {
-                reply.send(request.params);
+module.exports = ({ registerAction }) => {
+    registerAction({
+        target: "$FASTIFY_ROUTE",
+        handler: [
+            {
+                method: "GET",
+                url: "/echo/:loquesea",                    
+                handler: (request, reply) => {
+                    reply.send({response: request.params.loquesea});
+                }
+            },
+            {
+                method: "POST",
+                url: "/echo",                    
+                handler: (request, reply) => {
+                    reply.send({response: request.body.input.loquesea});
+                }
             }
-        },
-        {
-            method: "GET",
-            url: "/hello/:nombre",                    
-            handler: helloHandler
-        }
-    ]
-}; 
-
-module.exports = {echoFeature};
+        ]
+    });
+};
